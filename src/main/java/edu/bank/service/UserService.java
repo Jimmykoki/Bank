@@ -9,5 +9,4 @@ public interface UserService {
     public boolean logIn(String username, String psw);
     public boolean userExist(String username);
 
-
 }

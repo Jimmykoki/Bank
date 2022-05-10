@@ -2,7 +2,7 @@ package edu.bank.dao;
 
 public interface UserDao {
 
-    public boolean withDraw(String username, double money );
+    public boolean withdraw(String username, double money );
     public boolean deposit(String username, double money);
     public double checkDeposit(String username);
     public boolean createAccount(String psw,String username);

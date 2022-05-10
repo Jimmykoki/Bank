@@ -11,17 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("UserService")
 public class UserServiceImpl implements UserService {
 
-
     @Autowired
     private UserDao userDao;
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean withdrawMoney(String username, double money) {
-        return userDao.withDraw(username,money);
+        return userDao.withdraw(username,money);
     }
-
-
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean depositMoney(String username, double money) {
         return userDao.deposit(username, money);

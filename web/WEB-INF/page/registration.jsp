@@ -69,16 +69,20 @@
                     </div>
                     <div class="form-bottom">
                         <form role="form" action="register" method="post" class="login-form">
+
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
                                 <input type="text" name="username" placeholder="Username" class="form-username form-control" id="form-username" required="required">
+                                <p class="alert-danger d-block">
+                                    ${uerror}
+                                </p>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
                                 <input type="password" name="password" placeholder="Password" class="form-password form-control" id="form-password" required="required">
-                            </div>
-                            <div class="invalid-feedback d-block">
-                                ${user_exist}
+                                <p class="alert-danger d-block">
+                                    ${perror}
+                                </p>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn">Register!</button>
