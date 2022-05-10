@@ -12,7 +12,6 @@ import java.util.List;
 
 @Component("UserDao")
 public class UserDaoImpl implements UserDao {
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -27,13 +26,11 @@ public class UserDaoImpl implements UserDao {
         }
         double deposit= checkDeposit(username);
         System.out.println("deposit is "+deposit);
-        //bad code
         if(deposit-money<0||money<0){
             System.out.println("operation fail!");
             return false;
         }
         jdbcTemplate.update("update account set deposit=? where username=?", deposit-money, username);
-        //bad code
         System.out.println("Withdraw "+money+"successful");
         return true;
     }
@@ -50,8 +47,8 @@ public class UserDaoImpl implements UserDao {
             System.out.println("Please enter the valid money");
             return false;
         }
-        User user=jdbcTemplate.queryForObject("Select deposit from account where username=?", new BeanPropertyRowMapper<User>(User.class), username);
-        double deposit= user.getDeposit();
+        User user = jdbcTemplate.queryForObject("Select deposit from account where username=?", new BeanPropertyRowMapper<User>(User.class), username);
+        double deposit = user.getDeposit();
         jdbcTemplate.update("update account set deposit=? where username=?", money+deposit, username);
         //bad code
         System.out.println("Deposit "+money+"successful");
@@ -85,9 +82,6 @@ public class UserDaoImpl implements UserDao {
     public boolean logIn(String username, String psw) {
         notNull(username);
         notNull(psw);
-        //good code
-        //List<Account> accounts=jdbcTemplate.query("select * from account where username=? and psw=?",new BeanPropertyRowMapper<Account>(Account.class), username,psw);
-        //bad code SQL injection
         List<User> users = jdbcTemplate.query("Select * from account where username='" + username + "' and psw='" + psw + "'", new BeanPropertyRowMapper<User>(User.class));
         if(users.size()==0){
             System.out.println("User not found, please check your psw or username");

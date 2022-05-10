@@ -88,7 +88,7 @@
                                 <button type="submit" class="btn">Register!</button>
                             </div>
                             <div class="mt-5 text-center">
-                                By clicking Register you agree to our <a href="www.google.com"> Terms of Use</a>.
+                                By clicking Register you agree to our <a href="link?term=https://github.com/Jimmykoki/Bank"> Terms of Use</a>.
                             </div>
 
                         </form>

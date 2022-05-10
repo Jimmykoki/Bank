@@ -21,13 +21,22 @@ public class UserController {
 
 
 
-    @RequestMapping({"/"})
+    @GetMapping({"/"})
     public String toLogin() {
         return "login";
     }
 
     @GetMapping("/toRegister")
     public String toRegister (){
+        return "registration";
+    }
+
+    @GetMapping("/link")
+    public String link(@RequestParam(value = "term") String term){
+        if (term!= null){
+            return "redirect:"+term;
+        }
+
         return "registration";
     }
 
@@ -119,18 +128,6 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping({"/login"})
-    public String loginGet(@RequestParam(value = "target", required = false) String target,
-                           HttpSession session) {
-        //http://localhost:8080/swe266_war_exploded/login?target=http://google.com
-        if(target!=null){
-            return "redirect:"+target;
-        }
-        if(session.getAttribute("user")!=null){
-            return "forward:account";
-        }
-        return "login";
-    }
 
     @PostMapping(value = "/login")
     public String loginPost(
@@ -138,6 +135,9 @@ public class UserController {
             @RequestParam(value = "password", required = true) String password,
             HttpSession session,
             Model model) {
+
+        System.out.println("username = " + username);
+        System.out.println("password = " + password);
         if (username == "" || password == "") {
             model.addAttribute("password_error","username or password cannot be empty");
             return "login";
@@ -150,7 +150,6 @@ public class UserController {
         return "login";
 
     }
-
 
 
 }
