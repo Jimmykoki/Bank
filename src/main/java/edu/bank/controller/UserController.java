@@ -60,8 +60,9 @@ public class UserController {
             return "registration";
         }
 
+        String REGEX = "^(0|[1-9][0-9]*){1}(\\.[0-9]{2})?$";
         double amount = Double.parseDouble(deposit);
-        if (amount >= 9999999999.99 || !deposit.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
+        if (!deposit.matches(REGEX)){
             model.addAttribute("derror", "The initial deposit you entered is invalid");
             return "registration";
         }
@@ -71,7 +72,6 @@ public class UserController {
             return "redirect:account";
         }
         model.addAttribute("error", "The username you entered have been registered");
-
         return "registration";
     }
 
@@ -82,7 +82,7 @@ public class UserController {
             HttpSession session,Model model) {
         String username = (String) session.getAttribute("user");
         try {
-            if(sendMoney.charAt(0)=='0' || !sendMoney.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
+            if(sendMoney.charAt(0)=='0' || !sendMoney.matches("[1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$")){
                 throw new NumberFormatException();
             }
             if (userService.depositMoney(username, Double.parseDouble(sendMoney))) {
@@ -105,7 +105,7 @@ public class UserController {
             HttpSession session,Model model) {
         String username = (String) session.getAttribute("user");
         try{
-            if(amount.charAt(0)=='0' || !amount.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
+            if(amount.charAt(0)=='0' || !amount.matches("[1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$")){
                 throw new NumberFormatException();
             }
             if(userService.withdrawMoney(username,Double.parseDouble(amount))){

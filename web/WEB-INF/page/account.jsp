@@ -69,7 +69,7 @@
                     <div class="form-top">
                         <div class="form-top-left">
                             <h2>Hello ${user}</h2>
-                            <h4>${user}'s balance: <fmt:formatNumber type="number" value="${balance}" maxFractionDigits="2"/></h4>
+                            <h4>${user}'s balance: <fmt:formatNumber type="number" value="${balance}" pattern="0.00" maxFractionDigits="2"/></h4>
                         </div>
                     </div>
                     <div class="form-bottom">
