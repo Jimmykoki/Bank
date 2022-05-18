@@ -72,6 +72,9 @@
                     </div>
                     <div class="form-bottom">
                         <form role="form" action="login" method="post" class="login-form">
+                            <p class="alert-danger d-block">
+                                ${matchError}
+                            </p>
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
                                 <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
@@ -80,10 +83,12 @@
                                 <label class="sr-only" for="form-password">Password</label>
                                 <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
                             </div>
+                            <p class="alert-danger d-block">
+                                ${emptyError}
+                            </p>
                             <div class="form-group">
                                 <button type="submit" class="btn">Sign in!</button>
                             </div>
-
                             <div class="mt-4 text-center">
                                 Not a member? <a href="toRegister">Create One</a>
                             </div>

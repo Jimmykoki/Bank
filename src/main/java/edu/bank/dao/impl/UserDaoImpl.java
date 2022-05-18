@@ -50,7 +50,6 @@ public class UserDaoImpl implements UserDao {
         User user = jdbcTemplate.queryForObject("Select deposit from account where username=?", new BeanPropertyRowMapper<User>(User.class), username);
         double deposit = user.getDeposit();
         jdbcTemplate.update("update account set deposit=? where username=?", money+deposit, username);
-        //bad code
         System.out.println("Deposit "+money+"successful");
         return true;
     }
@@ -68,11 +67,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean createAccount(String psw, String username) {
+    public boolean createAccount(String username, String psw, double deposit) {
         notNull(username);
         notNull(psw);
+        notNull(deposit);
         if(!userExist(username)){
-            jdbcTemplate.update("INSERT INTO account (psw,username,deposit) values(?,?,?)", psw,username,0);
+            jdbcTemplate.update("INSERT INTO account (username,psw,deposit) values(?,?,?)", username,psw,deposit);
             System.out.println("Create success");
             return true;
         }
@@ -97,7 +97,6 @@ public class UserDaoImpl implements UserDao {
     public boolean userExist(String username) {
         notNull(username);
         List<User> users = jdbcTemplate.query("Select username from account where username=?", new BeanPropertyRowMapper<User>(User.class), username);
-        //bad code
         if(users.size()==0){
             return false;
         }

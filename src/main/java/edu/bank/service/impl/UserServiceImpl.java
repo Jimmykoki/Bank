@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public boolean createAccount(String username,String psw) {
-        return userDao.createAccount(username,psw);
+    public boolean createAccount(String username,String psw, double deposit) {
+        return userDao.createAccount(username,psw, deposit);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

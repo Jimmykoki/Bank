@@ -44,12 +44,14 @@ public class UserController {
     public String register(
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password,
+            @RequestParam(value = "deposit", required = true) String deposit,
             HttpSession session, Model model){
         System.out.println("username = " + username);
         System.out.println("password = " + password);
+        System.out.println("deposit = " + deposit);
 
         if(username.length() < 1 || username.length() > 127 || !username.matches("[_\\-\\.0-9a-z]{1,127}")){
-            model.addAttribute("uerror", "The username or password you entered is invalid");
+            model.addAttribute("uerror", "The username you entered is invalid");
             return "registration";
         }
 
@@ -57,8 +59,15 @@ public class UserController {
             model.addAttribute("perror", "The password you entered is invalid");
             return "registration";
         }
-        session.setAttribute("user", username);
-        if (userService.createAccount(username, password)){
+
+        double amount = Double.parseDouble(deposit);
+        if (amount >= 9999999999.99 || !deposit.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
+            model.addAttribute("derror", "The initial deposit you entered is invalid");
+            return "registration";
+        }
+
+        if (userService.createAccount(username, password, amount)){
+            session.setAttribute("user", username);
             return "redirect:account";
         }
         model.addAttribute("error", "The username you entered have been registered");
@@ -73,7 +82,7 @@ public class UserController {
             HttpSession session,Model model) {
         String username = (String) session.getAttribute("user");
         try {
-            if(sendMoney.charAt(0)=='0'){
+            if(sendMoney.charAt(0)=='0' || !sendMoney.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
                 throw new NumberFormatException();
             }
             if (userService.depositMoney(username, Double.parseDouble(sendMoney))) {
@@ -96,7 +105,7 @@ public class UserController {
             HttpSession session,Model model) {
         String username = (String) session.getAttribute("user");
         try{
-            if(amount.charAt(0)=='0'){
+            if(amount.charAt(0)=='0' || !amount.matches("([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)")){
                 throw new NumberFormatException();
             }
             if(userService.withdrawMoney(username,Double.parseDouble(amount))){
@@ -118,6 +127,7 @@ public class UserController {
         double balance = userService.checkDeposit(username);
         model.addAttribute("balance",balance);
         model.addAttribute("user",username);
+        System.out.println("balance = " + balance);
         return "account";
     }
 
@@ -139,14 +149,14 @@ public class UserController {
         System.out.println("username = " + username);
         System.out.println("password = " + password);
         if (username == "" || password == "") {
-            model.addAttribute("password_error","username or password cannot be empty");
+            model.addAttribute("emptyError","username or password cannot be empty");
             return "login";
         }
         if(userService.logIn(username,password)){
             session.setAttribute("user", username);
             return "forward:account";
         }
-        model.addAttribute("password_error","username or password does not match");
+        model.addAttribute("matchError","username or password is invalid, please change your input and try again");
         return "login";
 
     }

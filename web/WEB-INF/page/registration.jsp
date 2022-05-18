@@ -69,20 +69,29 @@
                     </div>
                     <div class="form-bottom">
                         <form role="form" action="register" method="post" class="login-form">
-
+                            <p class="alert-danger d-block">
+                                ${error}
+                            </p>
                             <div class="form-group">
-                                <label class="sr-only" for="form-username">Username</label>
-                                <input type="text" name="username" placeholder="Username" class="form-username form-control" id="form-username" required="required">
                                 <p class="alert-danger d-block">
                                     ${uerror}
                                 </p>
+                                <label class="sr-only" for="form-username">Username</label>
+                                <input type="text" name="username" placeholder="Username" class="form-username form-control" id="form-username" required="required">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="form-password">Password</label>
-                                <input type="password" name="password" placeholder="Password" class="form-password form-control" id="form-password" required="required">
                                 <p class="alert-danger d-block">
                                     ${perror}
                                 </p>
+                                <label class="sr-only" for="form-password">Password</label>
+                                <input type="password" name="password" placeholder="Password" class="form-password form-control" id="form-password" required="required">
+                            </div>
+                            <div class="form-group">
+                                <p class="alert-danger d-block">
+                                    ${derror}
+                                </p>
+                                <label class="sr-only" for="form-deposit">Initial Deposit</label>
+                                <input type="text" name="deposit" placeholder="Deposit" class="form-password form-control" id="form-deposit" required="required">
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn">Register!</button>
