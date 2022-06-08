@@ -75,6 +75,9 @@
                             <p class="alert-danger d-block">
                                 ${matchError}
                             </p>
+                            <p class="alert-danger d-block">
+                                ${invalidError}
+                            </p>
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
                                 <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">

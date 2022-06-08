@@ -72,6 +72,9 @@
                             <p class="alert-danger d-block">
                                 ${error}
                             </p>
+                            <p class="alert-danger d-block">
+                                ${directError}
+                            </p>
                             <div class="form-group">
                                 <p class="alert-danger d-block">
                                     ${uerror}

@@ -1,25 +1,31 @@
 package edu.bank.controller;
 
 
-import edu.bank.entity.User;
 import edu.bank.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.util.HashMap;
 
 @Controller
 public class UserController {
     @Autowired
     UserService userService;
 
+    private final HashMap<String, Integer> whitelist = new HashMap<String, Integer>();
 
+    public void setWhitelist(){
+        whitelist.put("https://github.com/Jimmykoki/Bank", 1);
+    }
+
+    public HashMap<String, Integer> getWhitelist() {
+        return whitelist;
+    }
 
     @GetMapping({"/"})
     public String toLogin() {
@@ -32,11 +38,15 @@ public class UserController {
     }
 
     @GetMapping("/link")
-    public String link(@RequestParam(value = "term") String term){
-        if (term!= null){
-            return "redirect:"+term;
+    public String link(@RequestParam(value = "term") String term, Model model){
+        setWhitelist();
+        if (term!=null){
+            if (getWhitelist().containsKey(term)) {
+                return "redirect:"+term;
+            }
+            model.addAttribute("directError", "Invalid target");
+            return "registration";
         }
-
         return "registration";
     }
 
@@ -146,20 +156,21 @@ public class UserController {
             HttpSession session,
             Model model) {
 
-        System.out.println("username = " + username);
-        System.out.println("password = " + password);
         if (username == "" || password == "") {
             model.addAttribute("emptyError","username or password cannot be empty");
             return "login";
         }
-        if(userService.logIn(username,password)){
+
+        if (!StringUtils.isAlphanumeric(username) || !StringUtils.isAlphanumeric(password)) {
+            model.addAttribute("invalidError", "username or password contains invalid signs");
+            return "login";
+        } else if (userService.logIn(username,password)){
             session.setAttribute("user", username);
             return "forward:account";
+        } else {
+            model.addAttribute("matchError","username or password is invalid, please change your input and try again");
+            return "login";
         }
-        model.addAttribute("matchError","username or password is invalid, please change your input and try again");
-        return "login";
-
     }
-
 
 }
